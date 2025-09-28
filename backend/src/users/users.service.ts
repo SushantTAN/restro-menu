@@ -8,7 +8,7 @@ export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   async findOne(username: string): Promise<User | null> {
-    return this.userModel.findOne({ username }).lean().exec();
+    return this.userModel.findOne({ username }).select('+password').lean().exec();
   }
 
   // This is for seeding the database with an admin user

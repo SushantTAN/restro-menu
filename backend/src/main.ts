@@ -8,6 +8,9 @@ async function bootstrap() {
     whitelist: true,
     forbidNonWhitelisted: true,
   }));
+  // Enable CORS for all origins (for development).
+  // For production, you should restrict this to your frontend's domain.
+  app.enableCors({ origin: true });
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();
