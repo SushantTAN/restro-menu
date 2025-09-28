@@ -6,6 +6,7 @@ import AdminLoginPage from './pages/admin/AdminLoginPage';
 import AdminDashboardPage from './pages/admin/AdminDashboardPage';
 import AdminRestaurantsPage from './pages/admin/AdminRestaurantsPage';
 import LoginPage from './pages/user/LoginPage';
+import RestaurantDetailPage from './pages/user/RestaurantDetailPage';
 
 const queryClient = new QueryClient();
 
@@ -17,6 +18,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/restaurants/:id" element={<RestaurantDetailPage />} />
             <Route path="/admin/login" element={<AdminLoginPage />} />
             <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
             <Route path="/admin/restaurants" element={<AdminRestaurantsPage />} />
