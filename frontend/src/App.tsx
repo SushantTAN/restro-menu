@@ -4,6 +4,7 @@ import Layout from './components/reusable/Layout';
 import HomePage from './pages/user/HomePage';
 import AdminLoginPage from './pages/admin/AdminLoginPage';
 import AdminDashboardPage from './pages/admin/AdminDashboardPage';
+import AdminRestaurantsPage from './pages/admin/AdminRestaurantsPage';
 import LoginPage from './pages/user/LoginPage';
 
 const queryClient = new QueryClient();
@@ -18,6 +19,7 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/admin/login" element={<AdminLoginPage />} />
             <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
+            <Route path="/admin/restaurants" element={<AdminRestaurantsPage />} />
           </Routes>
         </Layout>
       </Router>
