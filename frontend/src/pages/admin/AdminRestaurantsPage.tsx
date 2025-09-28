@@ -5,8 +5,11 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import DataTable from '@/components/reusable/DataTable';
 
-// Restaurant type - updated to match backend DTO
+import type { Column } from '@/components/reusable/DataTable';
+
+// Restaurant type
 interface Restaurant {
   _id: string;
   name: string;
@@ -65,9 +68,14 @@ const AdminRestaurantsPage: React.FC = () => {
   const [editingRestaurant, setEditingRestaurant] = useState<Restaurant | null>(null);
   const queryClient = useQueryClient();
 
+  const columns: Column<Restaurant>[] = [
+    { header: 'Name', accessor: 'name' },
+    { header: 'Address', accessor: 'address' },
+  ];
+
   // Fetch restaurants
-  const { data: restaurants, isLoading, isError } = useQuery<Restaurant[]>({ 
-    queryKey: ['restaurants'], 
+  const { data: restaurants, isLoading, isError } = useQuery<Restaurant[]>({
+    queryKey: ['restaurants'],
     queryFn: async () => {
       const response = await api.get('/restaurants');
       return response.data;
@@ -149,10 +157,10 @@ const AdminRestaurantsPage: React.FC = () => {
             <CardTitle>{editingRestaurant ? 'Edit Restaurant' : 'Add New Restaurant'}</CardTitle>
           </CardHeader>
           <CardContent>
-            <RestaurantForm 
-              onSubmit={handleFormSubmit} 
+            <RestaurantForm
+              onSubmit={handleFormSubmit}
               onCancel={handleCancelForm}
-              initialData={editingRestaurant} 
+              initialData={editingRestaurant}
               isPending={createMutation.isPending || updateMutation.isPending}
             />
           </CardContent>
@@ -161,29 +169,12 @@ const AdminRestaurantsPage: React.FC = () => {
 
       <Card>
         <CardContent className="p-0">
-          <div className="overflow-x-auto">
-            <table className="min-w-full">
-              <thead className="bg-gray-100">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Address</th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {restaurants?.map((restaurant) => (
-                  <tr key={restaurant._id}>
-                    <td className="px-6 py-4 whitespace-nowrap">{restaurant.name}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{restaurant.address}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                      <Button variant="outline" size="sm" className="mr-2" onClick={() => handleEdit(restaurant)}>Edit</Button>
-                      <Button variant="destructive" size="sm" onClick={() => handleDelete(restaurant._id)}>Delete</Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <DataTable
+            columns={columns}
+            data={restaurants || []}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+          />
         </CardContent>
       </Card>
     </div>
