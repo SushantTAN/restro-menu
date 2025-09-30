@@ -30,17 +30,25 @@ export const useCart = () => {
 
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [items, setItems] = useState<CartItem[]>([]);
+  const [isInitialRender, setIsInitialRender] = useState(true);
 
   useEffect(() => {
-    const storedCart = localStorage.getItem('cart');
-    if (storedCart) {
-      setItems(JSON.parse(storedCart));
+    try {
+      const storedCart = localStorage.getItem('cart');
+      if (storedCart) {
+        setItems(JSON.parse(storedCart));
+      }
+    } catch (error) {
+      console.error("Failed to parse cart from localStorage", error);
     }
+    setIsInitialRender(false);
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(items));
-  }, [items]);
+    if (!isInitialRender) {
+      localStorage.setItem('cart', JSON.stringify(items));
+    }
+  }, [items, isInitialRender]);
 
   const addToCart = (item: MenuItem) => {
     setItems((prevItems) => {

@@ -1,3 +1,4 @@
+import { FaCartPlus } from 'react-icons/fa';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import api from '@/services/api';
@@ -76,7 +77,8 @@ const RestaurantDetailPage: React.FC = () => {
               <CardContent>
                 {/* <p>{item.description}</p> */}
                 <p className="font-bold mt-2">${item.price.toFixed(2)}</p>
-                <Button className="mt-4" onClick={() => addToCart(item)}>Add to Cart</Button>
+                <div className='bg-secondary h-12 w-12' ></div>
+                <Button className="mt-4" onClick={() => addToCart(item)}><FaCartPlus className="mr-2" />To Cart</Button>
               </CardContent>
             </Card>
           ))}

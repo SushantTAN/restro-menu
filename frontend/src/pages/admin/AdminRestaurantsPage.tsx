@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useNavigate } from 'react-router-dom';
+import { FaPlus, FaEdit, FaTrash, FaClipboardList } from 'react-icons/fa';
 import DataTable from '@/components/reusable/DataTable';
 
 import type { Column } from '@/components/reusable/DataTable';
@@ -154,7 +155,7 @@ const AdminRestaurantsPage: React.FC = () => {
     <div>
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Manage Restaurants</h1>
-        {!isFormOpen && <Button onClick={handleAddNew}>Add New Restaurant</Button>}
+        {!isFormOpen && <Button onClick={handleAddNew}><FaPlus className="mr-2" /> Add New Restaurant</Button>}
       </div>
 
       {isFormOpen && (
@@ -181,6 +182,9 @@ const AdminRestaurantsPage: React.FC = () => {
             onEdit={handleEdit}
             onDelete={handleDelete}
             onManageMenu={handleManageMenu}
+            editIcon={<FaEdit className="mr-2" />}
+            deleteIcon={<FaTrash className="mr-2" />}
+            manageMenuIcon={<FaClipboardList className="mr-2" />}
           />
         </CardContent>
       </Card>

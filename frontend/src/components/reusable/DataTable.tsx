@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import React from 'react';
 
 export interface Column<T> {
   header: string;
@@ -11,9 +12,12 @@ interface DataTableProps<T extends { _id: string }> {
   onEdit: (item: T) => void;
   onDelete: (id: string) => void;
   onManageMenu?: (id: string) => void;
+  editIcon?: React.ReactNode;
+  deleteIcon?: React.ReactNode;
+  manageMenuIcon?: React.ReactNode;
 }
 
-const DataTable = <T extends { _id: string }>({ columns, data, onEdit, onDelete, onManageMenu }: DataTableProps<T>) => {
+const DataTable = <T extends { _id: string }>({ columns, data, onEdit, onDelete, onManageMenu, editIcon, deleteIcon, manageMenuIcon }: DataTableProps<T>) => {
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full">
@@ -36,9 +40,9 @@ const DataTable = <T extends { _id: string }>({ columns, data, onEdit, onDelete,
                 </td>
               ))}
               <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                {onManageMenu && <Button variant="outline" size="sm" className="mr-2" onClick={() => onManageMenu(item._id)}>Manage Menu</Button>}
-                <Button variant="outline" size="sm" className="mr-2" onClick={() => onEdit(item)}>Edit</Button>
-                <Button variant="destructive" size="sm" onClick={() => onDelete(item._id)}>Delete</Button>
+                {onManageMenu && <Button variant="outline" size="sm" className="mr-2" onClick={() => onManageMenu(item._id)}>{manageMenuIcon} Manage Menu</Button>}
+                <Button variant="outline" size="sm" className="mr-2" onClick={() => onEdit(item)}>{editIcon} Edit</Button>
+                <Button variant="destructive" size="sm" onClick={() => onDelete(item._id)}>{deleteIcon} Delete</Button>
               </td>
             </tr>
           ))}

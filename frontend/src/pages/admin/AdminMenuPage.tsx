@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
 import DataTable from '@/components/reusable/DataTable';
 
 import type { Column } from '@/components/reusable/DataTable';
@@ -190,7 +191,7 @@ const AdminMenuPage: React.FC = () => {
     <div>
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Manage Menu</h1>
-        {!isFormOpen && <Button onClick={handleAddNew}>Add New Item</Button>}
+        {!isFormOpen && <Button onClick={handleAddNew}><FaPlus className="mr-2" /> Add New Item</Button>}
       </div>
 
       {isFormOpen && (
@@ -216,6 +217,8 @@ const AdminMenuPage: React.FC = () => {
             data={menuItems || []}
             onEdit={handleEdit}
             onDelete={handleDelete}
+            editIcon={<FaEdit className="mr-2" />}
+            deleteIcon={<FaTrash className="mr-2" />}
           />
         </CardContent>
       </Card>
