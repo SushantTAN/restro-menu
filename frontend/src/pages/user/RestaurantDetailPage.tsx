@@ -26,6 +26,8 @@ interface MenuItem {
 const RestaurantDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { addToCart } = useCart();
+  const [selectedItem, setSelectedItem] = React.useState<MenuItem | null>(null);
+  const [orderedFor, setOrderedFor] = React.useState('');
 
   // Fetch restaurant details
   const { data: restaurant, isLoading: isLoadingRestaurant, isError: isErrorRestaurant } = useQuery<Restaurant>({
@@ -79,9 +81,30 @@ const RestaurantDetailPage: React.FC = () => {
                 <p className="font-medium mt-2">Rs {item.price.toFixed(2)}</p>
                 {/* <div className='bg-secondary h-12 w-12' ></div> */}
                 <Button className="mt-4" onClick={() => addToCart(item)}><FaCartPlus className="mr-2" />To Cart</Button>
+                <Button className="mt-4 ml-2" onClick={() => setSelectedItem(item)}>Order For</Button>
               </CardContent>
             </Card>
           ))}
+        </div>
+      )}
+      {selectedItem && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-4 rounded-lg">
+            <h2 className="text-lg font-bold mb-4">Order for {selectedItem.name}</h2>
+            <input
+              type="text"
+              value={orderedFor}
+              onChange={(e) => setOrderedFor(e.target.value)}
+              className="border p-2 rounded w-full mb-4"
+              placeholder="Enter name"
+            />
+            <Button onClick={() => {
+              addToCart(selectedItem, orderedFor);
+              setSelectedItem(null);
+              setOrderedFor('');
+            }}>Save</Button>
+            <Button className="ml-2" onClick={() => setSelectedItem(null)}>Cancel</Button>
+          </div>
         </div>
       )}
     </section>

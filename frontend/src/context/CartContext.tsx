@@ -6,15 +6,16 @@ interface MenuItem {
   price: number;
 }
 
-interface CartItem extends MenuItem {
+export interface CartItem extends MenuItem {
   quantity: number;
+  orderedFor?: string;
 }
 
 interface CartContextType {
   items: CartItem[];
-  addToCart: (item: MenuItem) => void;
-  removeFromCart: (itemId: string) => void;
-  decreaseQuantity: (itemId: string) => void;
+  addToCart: (item: MenuItem, orderedFor?: string) => void;
+  removeFromCart: (itemId: string, orderedFor?: string) => void;
+  decreaseQuantity: (itemId: string, orderedFor?: string) => void;
   clearCart: () => void;
 }
 
@@ -50,27 +51,27 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, [items, isInitialRender]);
 
-  const addToCart = (item: MenuItem) => {
+  const addToCart = (item: MenuItem, orderedFor?: string) => {
     setItems((prevItems) => {
-      const existingItem = prevItems.find((i) => i._id === item._id);
+      const existingItem = prevItems.find((i) => i._id === item._id && i.orderedFor === orderedFor);
       if (existingItem) {
         return prevItems.map((i) =>
-          i._id === item._id ? { ...i, quantity: i.quantity + 1 } : i
+          i._id === item._id && i.orderedFor === orderedFor ? { ...i, quantity: i.quantity + 1 } : i
         );
       } else {
-        return [...prevItems, { ...item, quantity: 1 }];
+        return [...prevItems, { ...item, quantity: 1, orderedFor }];
       }
     });
   };
 
-  const removeFromCart = (itemId: string) => {
-    setItems((prevItems) => prevItems.filter((item) => item._id !== itemId));
+  const removeFromCart = (itemId: string, orderedFor?: string) => {
+    setItems((prevItems) => prevItems.filter((item) => !(item._id === itemId && item.orderedFor === orderedFor)));
   };
 
-  const decreaseQuantity = (itemId: string) => {
+  const decreaseQuantity = (itemId: string, orderedFor?: string) => {
     setItems((prevItems) => {
       return prevItems.map((i) =>
-        i._id === itemId ? { ...i, quantity: i.quantity - 1 } : i
+        (i._id === itemId && i.orderedFor === orderedFor) ? { ...i, quantity: i.quantity - 1 } : i
       ).filter(i => i.quantity > 0);
     });
   };
