@@ -1,4 +1,4 @@
-import { CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import api from '@/services/api';
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
@@ -11,11 +11,20 @@ interface Restaurant {
   address: string;
 }
 
+// MenuItem type
+interface MenuItem {
+  _id: string;
+  name: string;
+  price: number;
+  description?: string;
+  imageUrl?: string;
+}
+
 const RestaurantDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
 
   // Fetch restaurant details
-  const { data: restaurant, isLoading, isError } = useQuery<Restaurant>({
+  const { data: restaurant, isLoading: isLoadingRestaurant, isError: isErrorRestaurant } = useQuery<Restaurant>({
     queryKey: ['restaurant', id],
     queryFn: async () => {
       const response = await api.get(`/restaurants/${id}`);
@@ -24,19 +33,51 @@ const RestaurantDetailPage: React.FC = () => {
     enabled: !!id, // Only run the query if the id is present
   });
 
-  if (isLoading) {
+  // Fetch menu items
+  const { data: menuItems, isLoading: isLoadingMenu, isError: isErrorMenu } = useQuery<MenuItem[]>({
+    queryKey: ['menu', id],
+    queryFn: async () => {
+      const response = await api.get(`/menu/restaurant/${id}`);
+      return response.data;
+    },
+    enabled: !!id,
+  });
+
+  if (isLoadingRestaurant || isLoadingMenu) {
     return <div>Loading...</div>;
   }
 
-  if (isError || !restaurant) {
+  if (isErrorRestaurant || !restaurant) {
     return <div>Error fetching restaurant details</div>;
   }
 
   return (
     <section>
       {/* <CardHeader> */}
-      <CardTitle>{restaurant.name} Menu</CardTitle>
+      <CardTitle className='mb-6'>{restaurant.name} Menu</CardTitle>
       {/* </CardHeader> */}
+      {isErrorMenu ? (
+        <div>Error fetching menu items</div>
+      ) : (
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {menuItems?.map((item) => (
+            <Card key={item._id}>
+              {item.imageUrl ? (
+                <img src={item.imageUrl} alt={item.name} className="w-full h-48 object-cover" />
+              ) : (
+                <div className="w-full h-48 bg-gray-200 flex items-center justify-center text-gray-500">No Image</div>
+              )}
+              <CardHeader>
+                <CardTitle>{item.name}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p>{item.description}</p>
+                <p className="font-semibold mt-2">Rs. {item.price.toFixed(2)}</p>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
     </section>
   );
 };
