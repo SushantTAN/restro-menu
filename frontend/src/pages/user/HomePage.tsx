@@ -13,8 +13,8 @@ interface Restaurant {
 
 const HomePage: React.FC = () => {
   // Fetch restaurants
-  const { data: restaurants, isLoading, isError } = useQuery<Restaurant[]>({ 
-    queryKey: ['restaurants'], 
+  const { data: restaurants, isLoading, isError } = useQuery<Restaurant[]>({
+    queryKey: ['restaurants'],
     queryFn: async () => {
       const response = await api.get('/restaurants');
       return response.data;
@@ -31,7 +31,7 @@ const HomePage: React.FC = () => {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-4">Restaurants</h1>
+      <h1 className="text-3xl font-medium mb-4">Restaurants</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {restaurants?.map((restaurant) => (
           <Link to={`/restaurants/${restaurant._id}`} key={restaurant._id}>

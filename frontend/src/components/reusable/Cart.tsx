@@ -19,7 +19,7 @@ const Cart: React.FC = () => {
           <p>Your cart is empty.</p>
         ) : (
           <div>
-            <div className="hidden md:flex justify-between font-bold mb-2">
+            <div className="hidden md:flex justify-between font-medium mb-2">
               <span className="w-2/5">Item</span>
               <span className="w-1/5 text-center">Quantity</span>
               <span className="w-1/5 text-right">Price</span>
@@ -40,7 +40,7 @@ const Cart: React.FC = () => {
               </div>
             ))}
             <hr className="my-2" />
-            <div className="flex justify-between font-bold">
+            <div className="flex justify-between font-medium">
               <span>Total</span>
               <span>${totalBill.toFixed(2)}</span>
             </div>

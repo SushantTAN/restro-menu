@@ -76,8 +76,8 @@ const RestaurantDetailPage: React.FC = () => {
               </CardHeader>
               <CardContent>
                 {/* <p>{item.description}</p> */}
-                <p className="font-bold mt-2">${item.price.toFixed(2)}</p>
-                <div className='bg-secondary h-12 w-12' ></div>
+                <p className="font-medium mt-2">Rs {item.price.toFixed(2)}</p>
+                {/* <div className='bg-secondary h-12 w-12' ></div> */}
                 <Button className="mt-4" onClick={() => addToCart(item)}><FaCartPlus className="mr-2" />To Cart</Button>
               </CardContent>
             </Card>

@@ -61,9 +61,9 @@ const MenuItemForm: React.FC<MenuItemFormProps> = ({ onSubmit, onCancel, initial
     if (initialData) {
       formData.append('restaurant', initialData.restaurant);
     } else {
-        if(restaurantId) {
-            formData.append('restaurant', restaurantId);
-        }
+      if (restaurantId) {
+        formData.append('restaurant', restaurantId);
+      }
     }
     onSubmit(formData);
   };
@@ -121,9 +121,9 @@ const AdminMenuPage: React.FC = () => {
   // Create mutation
   const createMutation = useMutation({
     mutationFn: (newMenuItem: FormData) => api.post('/menu', newMenuItem, {
-        headers: {
-            'Content-Type': 'multipart/form-data',
-        },
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
     }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['menu', restaurantId] });
@@ -136,7 +136,7 @@ const AdminMenuPage: React.FC = () => {
     mutationFn: (updatedMenuItem: { id: string, data: FormData }) => {
       return api.patch(`/menu/${updatedMenuItem.id}`, updatedMenuItem.data, {
         headers: {
-            'Content-Type': 'multipart/form-data',
+          'Content-Type': 'multipart/form-data',
         },
       });
     },
@@ -190,7 +190,7 @@ const AdminMenuPage: React.FC = () => {
   return (
     <div>
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold">Manage Menu</h1>
+        <h1 className="text-2xl font-medium">Manage Menu</h1>
         {!isFormOpen && <Button onClick={handleAddNew}><FaPlus className="mr-2" /> Add New Item</Button>}
       </div>
 

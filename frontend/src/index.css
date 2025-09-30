@@ -1,4 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Satisfy&display=swap');
 @import "tailwindcss";
+
+* {
+  font-family: 'Satisfy', cursive;
+}
 
 :root {
   --secondary: 210 40% 96.1%;
