@@ -9,6 +9,7 @@ import AdminMenuPage from './pages/admin/AdminMenuPage';
 import LoginPage from './pages/user/LoginPage';
 import RestaurantDetailPage from './pages/user/RestaurantDetailPage';
 import CartPage from './pages/user/CartPage';
+import ManageOrderedForNamesPage from './pages/user/ManageOrderedForNamesPage';
 import { CartProvider } from './context/CartContext';
 
 const queryClient = new QueryClient();
@@ -28,6 +29,7 @@ function App() {
               <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
               <Route path="/admin/restaurants" element={<AdminRestaurantsPage />} />
               <Route path="/admin/restaurants/:restaurantId/menu" element={<AdminMenuPage />} />
+              <Route path="/manage-names" element={<ManageOrderedForNamesPage />} />
             </Routes>
           </Layout>
         </Router>

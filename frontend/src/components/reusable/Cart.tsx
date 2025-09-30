@@ -72,7 +72,7 @@ const Cart: React.FC = () => {
               <div>
                 {Object.entries(groupedItems).map(([person, items]) => (
                   <div key={person} className="mb-6">
-                    <h3 className="text-lg font-bold mb-2">{person}</h3>
+                    <h3 className="text-lg font-bold mb-2 underline underline-offset-8">{person}</h3>
                     <div className="hidden md:flex justify-between font-medium mb-2">
                       <span className="w-2/5">Item</span>
                       <span className="w-1/5 text-center">Quantity</span>
