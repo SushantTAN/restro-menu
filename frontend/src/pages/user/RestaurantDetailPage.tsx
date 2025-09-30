@@ -1,5 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import api from '@/services/api';
+import { useCart } from '@/context/CartContext';
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import { useParams } from 'react-router-dom';
@@ -22,6 +24,7 @@ interface MenuItem {
 
 const RestaurantDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const { addToCart } = useCart();
 
   // Fetch restaurant details
   const { data: restaurant, isLoading: isLoadingRestaurant, isError: isErrorRestaurant } = useQuery<Restaurant>({
@@ -53,9 +56,9 @@ const RestaurantDetailPage: React.FC = () => {
 
   return (
     <section>
-      {/* <CardHeader> */}
-      <CardTitle className='mb-6'>{restaurant.name} Menu</CardTitle>
-      {/* </CardHeader> */}
+      <CardHeader>
+        <CardTitle>{restaurant.name} Menu</CardTitle>
+      </CardHeader>
       {isErrorMenu ? (
         <div>Error fetching menu items</div>
       ) : (
@@ -63,7 +66,7 @@ const RestaurantDetailPage: React.FC = () => {
           {menuItems?.map((item) => (
             <Card key={item._id}>
               {item.imageUrl ? (
-                <img src={item.imageUrl} alt={item.name} className="w-full h-48 object-cover" />
+                <img src={item.imageUrl} alt={item.name} className="w-full h-32 object-cover" />
               ) : (
                 <div className="w-full h-48 bg-gray-200 flex items-center justify-center text-gray-500">No Image</div>
               )}
@@ -71,8 +74,9 @@ const RestaurantDetailPage: React.FC = () => {
                 <CardTitle>{item.name}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p>{item.description}</p>
-                <p className="font-semibold mt-2">Rs. {item.price.toFixed(2)}</p>
+                {/* <p>{item.description}</p> */}
+                <p className="font-bold mt-2">${item.price.toFixed(2)}</p>
+                <Button className="mt-4" onClick={() => addToCart(item)}>Add to Cart</Button>
               </CardContent>
             </Card>
           ))}

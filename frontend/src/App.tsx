@@ -8,25 +8,30 @@ import AdminRestaurantsPage from './pages/admin/AdminRestaurantsPage';
 import AdminMenuPage from './pages/admin/AdminMenuPage';
 import LoginPage from './pages/user/LoginPage';
 import RestaurantDetailPage from './pages/user/RestaurantDetailPage';
+import CartPage from './pages/user/CartPage';
+import { CartProvider } from './context/CartContext';
 
 const queryClient = new QueryClient();
 
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <Router>
-        <Layout>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/restaurants/:id" element={<RestaurantDetailPage />} />
-            <Route path="/admin/login" element={<AdminLoginPage />} />
-            <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
-            <Route path="/admin/restaurants" element={<AdminRestaurantsPage />} />
-            <Route path="/admin/restaurants/:restaurantId/menu" element={<AdminMenuPage />} />
-          </Routes>
-        </Layout>
-      </Router>
+      <CartProvider>
+        <Router>
+          <Layout>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/restaurants/:id" element={<RestaurantDetailPage />} />
+              <Route path="/cart" element={<CartPage />} />
+              <Route path="/admin/login" element={<AdminLoginPage />} />
+              <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
+              <Route path="/admin/restaurants" element={<AdminRestaurantsPage />} />
+              <Route path="/admin/restaurants/:restaurantId/menu" element={<AdminMenuPage />} />
+            </Routes>
+          </Layout>
+        </Router>
+      </CartProvider>
     </QueryClientProvider>
   );
 }
