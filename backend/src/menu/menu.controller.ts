@@ -1,16 +1,28 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, NotFoundException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, NotFoundException, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { MenuService } from './menu.service';
 import { CreateMenuItemDto } from './dto/create-menu-item.dto';
 import { UpdateMenuItemDto } from './dto/update-menu-item.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { FirebaseService } from '../firebase/firebase.service';
 
 @Controller('menu')
 export class MenuController {
-  constructor(private readonly menuService: MenuService) {}
+  constructor(
+    private readonly menuService: MenuService,
+    private readonly firebaseService: FirebaseService,
+  ) {}
 
   @UseGuards(JwtAuthGuard)
   @Post()
-  create(@Body() createMenuItemDto: CreateMenuItemDto) {
+  @UseInterceptors(FileInterceptor('image'))
+  async create(
+    @Body() createMenuItemDto: CreateMenuItemDto,
+    @UploadedFile() file?: Express.Multer.File,
+  ) {
+    if (file) {
+      createMenuItemDto.imageUrl = await this.firebaseService.uploadImage(file);
+    }
     return this.menuService.create(createMenuItemDto);
   }
 
@@ -30,12 +42,16 @@ export class MenuController {
 
   @UseGuards(JwtAuthGuard)
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateMenuItemDto: UpdateMenuItemDto) {
-    const menuItem = await this.menuService.update(id, updateMenuItemDto);
-    if (!menuItem) {
-      throw new NotFoundException(`Menu item with ID "${id}" not found`);
+  @UseInterceptors(FileInterceptor('image'))
+  async update(
+    @Param('id') id: string,
+    @Body() updateMenuItemDto: UpdateMenuItemDto,
+    @UploadedFile() file?: Express.Multer.File,
+  ) {
+    if (file) {
+      updateMenuItemDto.imageUrl = await this.firebaseService.uploadImage(file);
     }
-    return menuItem;
+    return this.menuService.update(id, updateMenuItemDto);
   }
 
   @UseGuards(JwtAuthGuard)

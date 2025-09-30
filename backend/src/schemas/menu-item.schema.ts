@@ -14,6 +14,12 @@ export class MenuItem {
 
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Restaurant', required: true })
   restaurant: Restaurant;
+
+  @Prop()
+  description?: string;
+
+  @Prop()
+  imageUrl?: string;
 }
 
 export const MenuItemSchema = SchemaFactory.createForClass(MenuItem);

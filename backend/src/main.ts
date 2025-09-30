@@ -7,6 +7,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({
     whitelist: true,
     forbidNonWhitelisted: true,
+    transform: true,
   }));
   // Enable CORS for all origins (for development).
   // For production, you should restrict this to your frontend's domain.

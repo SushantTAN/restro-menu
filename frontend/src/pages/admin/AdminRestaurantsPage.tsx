@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { useNavigate } from 'react-router-dom';
 import DataTable from '@/components/reusable/DataTable';
 
 import type { Column } from '@/components/reusable/DataTable';
@@ -67,6 +68,7 @@ const AdminRestaurantsPage: React.FC = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingRestaurant, setEditingRestaurant] = useState<Restaurant | null>(null);
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const columns: Column<Restaurant>[] = [
     { header: 'Name', accessor: 'name' },
@@ -141,6 +143,10 @@ const AdminRestaurantsPage: React.FC = () => {
     setEditingRestaurant(null);
   }
 
+  const handleManageMenu = (id: string) => {
+    navigate(`/admin/restaurants/${id}/menu`);
+  };
+
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error fetching restaurants</div>;
 
@@ -174,6 +180,7 @@ const AdminRestaurantsPage: React.FC = () => {
             data={restaurants || []}
             onEdit={handleEdit}
             onDelete={handleDelete}
+            onManageMenu={handleManageMenu}
           />
         </CardContent>
       </Card>
