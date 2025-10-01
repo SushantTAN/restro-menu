@@ -1,5 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import type { CartItem } from '@/context/CartContext';
 import { Html5QrcodeScanner } from 'html5-qrcode';
+import React, { useEffect, useState } from 'react';
+import { FaMinus, FaPlus, FaTrash } from 'react-icons/fa';
 
 const AdminOrdersPage: React.FC = () => {
   const [decodedText, setDecodedText] = useState<string | null>(null);
@@ -48,15 +52,62 @@ const AdminOrdersPage: React.FC = () => {
       </div>
 
       {decodedText && (
-        <div className="mt-4 p-4 border rounded-md bg-gray-100">
-          <h2 className="text-xl font-semibold mb-2">Decoded QR Code Data:</h2>
-          <p className="break-all">{decodedText}</p>
-          {decodedResult && (
-            <pre className="mt-2 p-2 bg-gray-200 rounded-md text-sm">
-              {JSON.stringify(decodedResult, null, 2)}
-            </pre>
-          )}
-        </div>
+        <Card className='mb-3'>
+          <CardContent>
+
+            <>
+              {(
+                <div>
+                  <div className="hidden md:flex justify-between font-medium mb-2">
+                    <span className="w-2/5">Item</span>
+                    <span className="w-1/5 text-center">Quantity</span>
+                    <span className="w-1/5 text-right">Price</span>
+                    <span className="w-1/5 text-right">Actions</span>
+                  </div>
+                  {JSON.parse(decodedText)?.reduce((acc, item) => {
+                    const presentDataIndex = acc.findIndex(el => el._id === item._id);
+                    if (presentDataIndex > -1) {
+                      acc[presentDataIndex] = { ...acc[presentDataIndex], quantity: acc[presentDataIndex]?.quantity + 1 }
+                    } else {
+                      acc.push(item)
+                    }
+                    return acc;
+                  }, [] as CartItem[]).map((item) => (
+                    <div key={item._id + (item.orderedFor || '')} className="flex flex-wrap justify-between items-center mb-4 md:mb-2">
+                      <span className="w-full md:w-2/5 mb-2 md:mb-0">
+                        {item.name}
+                        {/* {item.orderedFor && <p className="text-sm text-gray-500">Ordered for: {item.orderedFor}</p>} */}
+                      </span>
+                      <div className="w-1/2 md:w-1/5 flex items-center justify-start md:justify-center">
+                        <Button variant="outline" size="sm" ><FaMinus /></Button>
+                        <span className="mx-2">{item.quantity}</span>
+                        <Button variant="outline" size="sm"><FaPlus /></Button>
+                      </div>
+                      <span className="w-1/2 md:w-1/5 text-right md:text-right">Rs {(item.price * item.quantity).toFixed(2)}</span>
+                      <div className="w-full md:w-1/5 text-right mt-2 md:mt-0">
+                        <Button variant="destructive" size="sm" ><FaTrash className='' /></Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+
+
+              <hr className="my-2" />
+              <div className="flex justify-between font-medium">
+                <span>Total</span>
+                <span>Rs {(10).toFixed(2)}</span>
+              </div>
+
+
+              <Button variant="outline" size="sm" className="mt-4" >Clear Cart</Button>
+
+
+            </>
+
+          </CardContent>
+        </Card>
       )}
     </div>
   );
