@@ -18,4 +18,18 @@ api.interceptors.request.use(
   },
 );
 
+api.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      useAuthStore.getState().logout();
+      // Redirect to login page
+      window.location.href = '/admin/login';
+    }
+    return Promise.reject(error);
+  },
+);
+
 export default api;

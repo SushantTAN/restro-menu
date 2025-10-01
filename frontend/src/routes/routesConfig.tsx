@@ -1,3 +1,4 @@
+import AdminProtectedRoute from '@/components/reusable/AdminProtectedRoute';
 import UserLayout from '@/components/reusable/UserLayout';
 import AdminLayout from '../components/reusable/AdminLayout';
 import AdminDashboardPage from '../pages/admin/AdminDashboardPage';
@@ -35,27 +36,32 @@ export const routesConfig = [
         path: '/manage-names',
         element: <ManageOrderedForNamesPage />,
       },
-      {
-        path: '/admin/login',
-        element: <AdminLoginPage />,
-      },
     ],
   },
   {
+    path: '/admin/login',
+    element: <AdminLoginPage />,
+  },
+  {
     path: '/admin',
-    element: <AdminLayout />,
+    element: <AdminProtectedRoute />,
     children: [
       {
-        path: 'dashboard',
-        element: <AdminDashboardPage />,
-      },
-      {
-        path: 'restaurants',
-        element: <AdminRestaurantsPage />,
-      },
-      {
-        path: 'restaurants/:restaurantId/menu',
-        element: <AdminMenuPage />,
+        element: <AdminLayout />,
+        children: [
+          {
+            path: 'dashboard',
+            element: <AdminDashboardPage />,
+          },
+          {
+            path: 'restaurants',
+            element: <AdminRestaurantsPage />,
+          },
+          {
+            path: 'restaurants/:restaurantId/menu',
+            element: <AdminMenuPage />,
+          },
+        ],
       },
     ],
   },
