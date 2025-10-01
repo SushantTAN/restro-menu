@@ -4,6 +4,7 @@ import Layout from './components/reusable/Layout';
 import { CartProvider } from './context/CartContext';
 import AppRoutes from './routes/AppRoutes';
 import LogoutButton from './components/reusable/LogoutButton';
+import { Toaster } from "./components/ui/sonner";
 
 import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
 import { persistQueryClient } from "@tanstack/react-query-persist-client";
@@ -48,6 +49,7 @@ function App() {
         <Router>
           <Layout>
             <AppRoutes />
+            <Toaster />
           </Layout>
           <LogoutButton />
         </Router>

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useAuthStore } from '../store/auth';
+import { toast } from 'sonner';
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -26,8 +27,15 @@ api.interceptors.response.use(
     if (error.response && error.response.status === 401) {
       useAuthStore.getState().logout();
       // Redirect to login page
-      window.location.href = '/admin/login';
+      // window.location.href = '/admin/login';
     }
+
+    // Handle errors for non-GET requests
+    if (error.config && error.config.method !== 'get') {
+      const errorMessage = error.response?.data?.message || 'An unexpected error occurred.';
+      toast.error(errorMessage);
+    }
+
     return Promise.reject(error);
   },
 );
