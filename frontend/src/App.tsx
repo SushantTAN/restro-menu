@@ -3,6 +3,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import Layout from './components/reusable/Layout';
 import { CartProvider } from './context/CartContext';
 import AppRoutes from './routes/AppRoutes';
+import LogoutButton from './components/reusable/LogoutButton';
 
 import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
 import { persistQueryClient } from "@tanstack/react-query-persist-client";
@@ -48,6 +49,7 @@ function App() {
           <Layout>
             <AppRoutes />
           </Layout>
+          <LogoutButton />
         </Router>
       </CartProvider>
     </QueryClientProvider>
