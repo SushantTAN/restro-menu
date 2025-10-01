@@ -1,21 +1,43 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { cn } from "@/lib/utils"; // adjust the import based on where your cn() helper lives
 
 const AdminSidebar = () => {
   const [, setIsOpen] = useState(false);
+  const location = useLocation();
 
+  const links = [
+    { name: "Dashboard", path: "/admin/dashboard" },
+    { name: "Restaurants", path: "/admin/restaurants" },
+    // add more links here
+  ];
 
   return (
-    <div className={"px-4"}>
+    <div className="px-4">
       <nav className="mt-2">
-        <ul className='flex gap-6 flex-nowrap overflow-x-auto'>
-          <li className="mb-4">
-            <Link to="/admin/dashboard" className="block text-lg hover:text-gray-300" onClick={() => setIsOpen(false)}>Dashboard</Link>
-          </li>
-          <li className="mb-4">
-            <Link to="/admin/restaurants" className="block text-lg hover:text-gray-300" onClick={() => setIsOpen(false)}>Restaurants</Link>
-          </li>
-          {/* Add more admin links here as needed */}
+        <ul className="flex gap-6 flex-nowrap overflow-x-auto">
+          {links.map((link) => {
+            const isActive =
+              location.pathname === link.path ||
+              location.pathname.startsWith(link.path + "/"); // supports subroutes
+
+            return (
+              <li key={link.path} className="mb-4">
+                <Link
+                  to={link.path}
+                  onClick={() => setIsOpen(false)}
+                  className={cn(
+                    "block text-lg relative pb-1 transition",
+                    isActive
+                      ? "font-semibold text-gray-700 after:absolute after:left-0 after:bottom-0 after:w-full after:h-[2px] after:bg-gray-700"
+                      : "text-gray-600 hover:text-gray-300"
+                  )}
+                >
+                  {link.name}
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       </nav>
     </div>
