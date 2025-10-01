@@ -155,7 +155,7 @@ const AdminRestaurantsPage: React.FC = () => {
     <div>
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-medium">Manage Restaurants</h1>
-        {!isFormOpen && <Button onClick={handleAddNew}><FaPlus className="mr-2" /> Add New Restaurant</Button>}
+        {!isFormOpen && <Button onClick={handleAddNew}><FaPlus className="mr-2" /> Add New Restro</Button>}
       </div>
 
       {isFormOpen && (
