@@ -7,7 +7,6 @@ import AppRoutes from './routes/AppRoutes';
 import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
 import { persistQueryClient } from "@tanstack/react-query-persist-client";
 
-// const queryClient = new QueryClient();
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const queryClient = new QueryClient({
