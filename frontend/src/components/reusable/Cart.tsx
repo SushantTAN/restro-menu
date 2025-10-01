@@ -23,8 +23,8 @@ const Cart: React.FC = () => {
     <Card>
       <CardHeader>
         <div className="flex justify-end">
-          <Button variant={view === 'all' ? 'outline' : 'default'} onClick={() => setView('all')}>All Items</Button>
-          <Button variant={view === 'grouped' ? 'outline' : 'default'} className="ml-2" onClick={() => setView('grouped')}>Grouped by Person</Button>
+          <Button variant={view === 'all' ? 'default' : 'outline'} onClick={() => setView('all')}>All Items</Button>
+          <Button variant={view === 'grouped' ? 'default' : 'outline'} className="ml-2" onClick={() => setView('grouped')}>Grouped by Person</Button>
         </div>
       </CardHeader>
       <CardContent>
@@ -61,7 +61,7 @@ const Cart: React.FC = () => {
                     </div>
                     <span className="w-1/2 md:w-1/5 text-right md:text-right">Rs {(item.price * item.quantity).toFixed(2)}</span>
                     <div className="w-full md:w-1/5 text-right mt-2 md:mt-0">
-                      <Button variant="destructive" size="sm" onClick={() => removeFromCart(item._id, item.orderedFor)}><FaTrash className='text-red-500' /></Button>
+                      <Button variant="destructive" size="sm" onClick={() => removeFromCart(item._id, item.orderedFor)}><FaTrash className='' /></Button>
                     </div>
                   </div>
                 ))}

@@ -98,7 +98,7 @@ const RestaurantDetailPage: React.FC = () => {
                 {/* <p>{item.description}</p> */}
                 <p className="font-medium mt-2">Rs {item.price.toFixed(2)}</p>
                 {/* <div className='bg-secondary h-12 w-12' ></div> */}
-                <Button className="mt-2" onClick={() => addToCart(item)}><FaCartPlus className="mr-2" />To Cart</Button>
+                <Button variant={'secondary'} className="mt-2" onClick={() => addToCart(item)}><FaCartPlus className="mr-2" />To Cart</Button>
                 <Button className="mt-2 ml-2" onClick={() => setSelectedItem(item)}><BsPersonFillUp className="mr-2" />Order For</Button>
               </CardContent>
             </Card>
