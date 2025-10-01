@@ -5,6 +5,7 @@ import AdminDashboardPage from '../pages/admin/AdminDashboardPage';
 import AdminLoginPage from '../pages/admin/AdminLoginPage';
 import AdminMenuPage from '../pages/admin/AdminMenuPage';
 import AdminRestaurantsPage from '../pages/admin/AdminRestaurantsPage';
+import AdminOrdersPage from '../pages/admin/AdminOrdersPage';
 import CartPage from '../pages/user/CartPage';
 import HomePage from '../pages/user/HomePage';
 import LoginPage from '../pages/user/LoginPage';
@@ -60,6 +61,10 @@ export const routesConfig = [
           {
             path: 'restaurants/:restaurantId/menu',
             element: <AdminMenuPage />,
+          },
+          {
+            path: 'orders',
+            element: <AdminOrdersPage />,
           },
         ],
       },

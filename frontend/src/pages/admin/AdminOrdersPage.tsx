@@ -1,0 +1,65 @@
+import React, { useEffect, useState } from 'react';
+import { Html5QrcodeScanner } from 'html5-qrcode';
+
+const AdminOrdersPage: React.FC = () => {
+  const [decodedText, setDecodedText] = useState<string | null>(null);
+  const [decodedResult, setDecodedResult] = useState<any | null>(null);
+
+  useEffect(() => {
+    const qrCodeScannerId = "qr-code-full-region";
+    const html5QrcodeScanner = new Html5QrcodeScanner(
+      qrCodeScannerId,
+      {
+        fps: 10,
+        qrbox: { width: 250, height: 250 },
+        disableFlip: false,
+      },
+      /* verbose= */ false
+    );
+
+    const onScanSuccess = (decodedText: string, decodedResult: any) => {
+      // handle the scanned code as you like
+      console.log(`Code matched = ${decodedText}`, decodedResult);
+      setDecodedText(decodedText);
+      setDecodedResult(decodedResult);
+      html5QrcodeScanner.clear(); // Stop scanning after a successful scan
+    };
+
+    const onScanError = (errorMessage: string) => {
+      // handle scan error as you like
+      console.warn(`QR Code Scan Error: ${errorMessage}`);
+    };
+
+    html5QrcodeScanner.render(onScanSuccess, onScanError);
+
+    return () => {
+      html5QrcodeScanner.clear().catch(error => {
+        console.error("Failed to clear html5QrcodeScanner", error);
+      });
+    };
+  }, []);
+
+  return (
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">Admin Orders Page</h1>
+      <div className="mb-4">
+        <h2 className="text-xl font-semibold mb-2">QR Code Scanner</h2>
+        <div id="qr-code-full-region" style={{ width: "500px", height: "500px" }}></div>
+      </div>
+
+      {decodedText && (
+        <div className="mt-4 p-4 border rounded-md bg-gray-100">
+          <h2 className="text-xl font-semibold mb-2">Decoded QR Code Data:</h2>
+          <p className="break-all">{decodedText}</p>
+          {decodedResult && (
+            <pre className="mt-2 p-2 bg-gray-200 rounded-md text-sm">
+              {JSON.stringify(decodedResult, null, 2)}
+            </pre>
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default AdminOrdersPage;

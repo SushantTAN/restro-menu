@@ -9,6 +9,8 @@ const AdminSidebar = () => {
   const links = [
     { name: "Dashboard", path: "/admin/dashboard" },
     { name: "Restaurants", path: "/admin/restaurants" },
+    { name: "Orders", path: "/admin/orders" },
+
     // add more links here
   ];
 
